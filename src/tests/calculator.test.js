@@ -1,4 +1,4 @@
-const { add, sub, mul, div, compute } = require('../calculator');
+const { add, sub, mul, div, modulo, power, squareRoot, compute } = require('../calculator');
 
 describe('Calculator basic operations', () => {
   describe('addition', () => {
@@ -56,6 +56,48 @@ describe('Calculator basic operations', () => {
       expect(() => div(1, 0)).toThrow(/Division by zero/);
       expect(() => compute('div', 1, 0)).toThrow(/Division by zero/);
       expect(() => compute('/', 1, 0)).toThrow(/Division by zero/);
+    });
+  });
+
+  describe('extended operations', () => {
+    describe('modulo', () => {
+      test('basic modulo', () => {
+        expect(modulo(5, 2)).toBe(1);
+        expect(compute('mod', 5, 2)).toBe(1);
+        expect(compute('%', 5, 2)).toBe(1);
+      });
+
+      test('modulo by zero should throw', () => {
+        expect(() => modulo(1, 0)).toThrow(/Modulo by zero/);
+        expect(() => compute('mod', 1, 0)).toThrow(/Modulo by zero/);
+        expect(() => compute('%', 1, 0)).toThrow(/Modulo by zero/);
+      });
+    });
+
+    describe('power / exponentiation', () => {
+      test('basic power', () => {
+        expect(power(2, 3)).toBe(8);
+        expect(compute('pow', 2, 3)).toBe(8);
+        expect(compute('**', 2, 3)).toBe(8);
+        expect(compute('^', 2, 3)).toBe(8);
+      });
+
+      test('negative exponent', () => {
+        expect(power(2, -1)).toBeCloseTo(0.5);
+      });
+    });
+
+    describe('square root', () => {
+      test('perfect square', () => {
+        expect(squareRoot(16)).toBe(4);
+        expect(compute('sqrt', 16)).toBe(4);
+        expect(compute('√', 16)).toBe(4);
+      });
+
+      test('square root of negative should throw', () => {
+        expect(() => squareRoot(-1)).toThrow(/Square root of negative number/);
+        expect(() => compute('sqrt', -1)).toThrow(/Square root of negative number/);
+      });
     });
   });
 });
